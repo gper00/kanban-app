@@ -17,7 +17,7 @@ const authenticateToken = async (req, res, next) => {
       return res.status(401).json({ error: "User not found" })
     }
 
-    req.user = user
+    req.user = user // simpan sesi user
     next()
   } catch (error) {
     return res.status(401).json({ error: "Invalid token" })
