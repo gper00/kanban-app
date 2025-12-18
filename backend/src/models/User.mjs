@@ -34,8 +34,9 @@ export default (sequelize) => {
       }
     },
     {
-      tablename: "users",
-      timestamps: true
+      tableName: "users",
+      timestamps: true,
+      underscored: true
     }
   )
 

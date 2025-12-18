@@ -14,10 +14,10 @@ app.use(logger)
 
 app.use(router)
 
-app.use((req, res) => res.status(404).json({ error: "Route Not Found" }))
-app.use((err, req, res) => {
+app.use((req, res) => res.status(404).json({ success: false, message: "Route Not Found" }))
+app.use((err, req, res, next) => {
   console.error(err.stack)
-  res.status(500).json({ error: "Something went wrong!" })
+  res.status(500).json({ success: false, message: "Something went wrong!" })
 })
 
 const startServer = async () => {

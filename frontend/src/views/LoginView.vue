@@ -21,7 +21,7 @@ const handleSubmit = async () => {
 
   try {
     const result = await login(formData.value)
-    
+
     if (result.success) {
       router.push('/')
     } else {
@@ -52,7 +52,7 @@ const handleSubmit = async () => {
           <div class="relative z-10 flex max-w-md flex-col items-start text-white">
             <div class="mb-6 flex items-center gap-4">
               <span class="material-symbols-outlined text-4xl text-white">dashboard</span>
-              <span class="text-3xl font-bold">KanbanPro</span>
+              <span class="text-3xl font-bold">Kanban App</span>
             </div>
             <h2 class="text-4xl font-bold leading-tight mb-4">
               Atur proyek Anda, capai tujuan Anda.

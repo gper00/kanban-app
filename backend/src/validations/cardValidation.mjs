@@ -1,16 +1,5 @@
-import { body, param, query, validationResult } from "express-validator"
-
-const handleValidationErrors = (req, res, next) => {
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    return res.status(400).json({
-      success: false,
-      message: "Validation failed",
-      errors: errors.array().map((error) => error.msg)
-    })
-  }
-  next()
-}
+import { body, param, query } from "express-validator"
+import { handleValidationErrors } from "../utils/response.mjs"
 
 const createCardValidation = [
   body("title")
@@ -50,9 +39,7 @@ const createCardValidation = [
 ]
 
 const updateCardValidation = [
-  param("id")
-    .isInt({ min: 1 })
-    .withMessage("Invalid card ID"),
+  param("id").isInt({ min: 1 }).withMessage("Invalid card ID"),
 
   body("title")
     .optional()
@@ -81,9 +68,7 @@ const updateCardValidation = [
 ]
 
 const moveCardValidation = [
-  param("id")
-    .isInt({ min: 1 })
-    .withMessage("Invalid card ID"),
+  param("id").isInt({ min: 1 }).withMessage("Invalid card ID"),
 
   body("listId")
     .notEmpty()
@@ -111,9 +96,7 @@ const getCardsValidation = [
 ]
 
 const cardIdValidation = [
-  param("id")
-    .isInt({ min: 1 })
-    .withMessage("Invalid card ID"),
+  param("id").isInt({ min: 1 }).withMessage("Invalid card ID"),
 
   handleValidationErrors
 ]

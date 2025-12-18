@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken"
 import { User } from "../models/index.mjs"
+import { successResponse, errorResponse, HTTP_STATUS } from "../utils/response.mjs"
 
 const generateToken = (userId) => {
   return jwt.sign({ userId }, process.env.JWT_SECRET, {
@@ -13,23 +14,23 @@ const register = async (req, res) => {
 
     const existingUser = await User.findOne({ where: { email } })
     if (existingUser) {
-      return res.status(400).json({ error: "Email already registered" })
+      return errorResponse(res, "Email already registered", HTTP_STATUS.BAD_REQUEST)
     }
 
     const user = await User.create({ email, password, name })
     const token = generateToken(user.id)
 
-    res.status(201).json({
+    return successResponse(res, {
       user: {
         id: user.id,
         email: user.email,
         name: user.name
       },
       token
-    })
+    }, "Registration successful", HTTP_STATUS.CREATED)
   } catch (error) {
     console.error("Register error:", error)
-    res.status(500).json({ error: "Internal server error" })
+    return errorResponse(res, "Internal server error", HTTP_STATUS.INTERNAL_SERVER_ERROR)
   }
 }
 
@@ -39,22 +40,22 @@ const login = async (req, res) => {
 
     const user = await User.findOne({ where: { email } })
     if (!user || !(await user.comparePassword(password))) {
-      return res.status(401).json({ error: "Invalid credentials" })
+      return errorResponse(res, "Invalid credentials", HTTP_STATUS.UNAUTHORIZED)
     }
 
     const token = generateToken(user.id)
 
-    res.json({
+    return successResponse(res, {
       user: {
         id: user.id,
         email: user.email,
         name: user.name
       },
       token
-    })
+    }, "Login successful")
   } catch (error) {
     console.error("Login error:", error)
-    res.status(500).json({ error: "Internal server error" })
+    return errorResponse(res, "Internal server error", HTTP_STATUS.INTERNAL_SERVER_ERROR)
   }
 }
 

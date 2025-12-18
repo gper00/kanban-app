@@ -1,5 +1,6 @@
 import { Card, List, Board } from "../models/index.mjs"
 import { Op } from "sequelize"
+import { successResponse, errorResponse, HTTP_STATUS } from "../utils/response.mjs"
 
 const verifyListOwnership = async (listId, userId) => {
   const list = await List.findByPk(listId, {
@@ -7,11 +8,11 @@ const verifyListOwnership = async (listId, userId) => {
   })
 
   if (!list) {
-    return { error: "List not found", status: 404 }
+    return { error: "List not found", status: HTTP_STATUS.NOT_FOUND }
   }
 
   if (list.board.ownerId !== userId) {
-    return { error: "You don't have permission to access this list", status: 403 }
+    return { error: "You don't have permission to access this list", status: HTTP_STATUS.FORBIDDEN }
   }
 
   return { list }
@@ -23,10 +24,7 @@ const getAllCards = async (req, res) => {
 
     const verification = await verifyListOwnership(listId, req.user.id)
     if (verification.error) {
-      return res.status(verification.status).json({
-        success: false,
-        message: verification.error
-      })
+      return errorResponse(res, verification.error, verification.status)
     }
 
     const cards = await Card.findAll({
@@ -34,15 +32,9 @@ const getAllCards = async (req, res) => {
       order: [["position", "ASC"]]
     })
 
-    res.json({
-      success: true,
-      data: cards
-    })
+    return successResponse(res, cards, "Cards retrieved successfully")
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    })
+    return errorResponse(res, error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
   }
 }
 
@@ -61,28 +53,16 @@ const getCardById = async (req, res) => {
     })
 
     if (!card) {
-      return res.status(404).json({
-        success: false,
-        message: "Card not found"
-      })
+      return errorResponse(res, "Card not found", HTTP_STATUS.NOT_FOUND)
     }
 
     if (card.list.board.ownerId !== req.user.id) {
-      return res.status(403).json({
-        success: false,
-        message: "You don't have permission to access this card"
-      })
+      return errorResponse(res, "You don't have permission to access this card", HTTP_STATUS.FORBIDDEN)
     }
 
-    res.json({
-      success: true,
-      data: card
-    })
+    return successResponse(res, card, "Card retrieved successfully")
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    })
+    return errorResponse(res, error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
   }
 }
 
@@ -92,10 +72,7 @@ const createCard = async (req, res) => {
 
     const verification = await verifyListOwnership(listId, req.user.id)
     if (verification.error) {
-      return res.status(verification.status).json({
-        success: false,
-        message: verification.error
-      })
+      return errorResponse(res, verification.error, verification.status)
     }
 
     let cardPosition = position
@@ -115,15 +92,9 @@ const createCard = async (req, res) => {
 
     await List.increment("cardCount", { where: { id: listId } })
 
-    res.status(201).json({
-      success: true,
-      data: card
-    })
+    return successResponse(res, card, "Card created successfully", HTTP_STATUS.CREATED)
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    })
+    return errorResponse(res, error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
   }
 }
 
@@ -143,30 +114,18 @@ const updateCard = async (req, res) => {
     })
 
     if (!card) {
-      return res.status(404).json({
-        success: false,
-        message: "Card not found"
-      })
+      return errorResponse(res, "Card not found", HTTP_STATUS.NOT_FOUND)
     }
 
     if (card.list.board.ownerId !== req.user.id) {
-      return res.status(403).json({
-        success: false,
-        message: "You don't have permission to update this card"
-      })
+      return errorResponse(res, "You don't have permission to update this card", HTTP_STATUS.FORBIDDEN)
     }
 
     await card.update({ title, description, dueDate })
 
-    res.json({
-      success: true,
-      data: card
-    })
+    return successResponse(res, card, "Card updated successfully")
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    })
+    return errorResponse(res, error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
   }
 }
 
@@ -185,17 +144,11 @@ const deleteCard = async (req, res) => {
     })
 
     if (!card) {
-      return res.status(404).json({
-        success: false,
-        message: "Card not found"
-      })
+      return errorResponse(res, "Card not found", HTTP_STATUS.NOT_FOUND)
     }
 
     if (card.list.board.ownerId !== req.user.id) {
-      return res.status(403).json({
-        success: false,
-        message: "You don't have permission to delete this card"
-      })
+      return errorResponse(res, "You don't have permission to delete this card", HTTP_STATUS.FORBIDDEN)
     }
 
     const listId = card.listId
@@ -203,15 +156,9 @@ const deleteCard = async (req, res) => {
 
     await List.decrement("cardCount", { where: { id: listId } })
 
-    res.json({
-      success: true,
-      message: "Card deleted successfully"
-    })
+    return successResponse(res, null, "Card deleted successfully")
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    })
+    return errorResponse(res, error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
   }
 }
 
@@ -231,32 +178,20 @@ const moveCard = async (req, res) => {
     })
 
     if (!card) {
-      return res.status(404).json({
-        success: false,
-        message: "Card not found"
-      })
+      return errorResponse(res, "Card not found", HTTP_STATUS.NOT_FOUND)
     }
 
     if (card.list.board.ownerId !== req.user.id) {
-      return res.status(403).json({
-        success: false,
-        message: "You don't have permission to move this card"
-      })
+      return errorResponse(res, "You don't have permission to move this card", HTTP_STATUS.FORBIDDEN)
     }
 
     const targetVerification = await verifyListOwnership(targetListId, req.user.id)
     if (targetVerification.error) {
-      return res.status(targetVerification.status).json({
-        success: false,
-        message: targetVerification.error
-      })
+      return errorResponse(res, targetVerification.error, targetVerification.status)
     }
 
     if (card.list.board.id !== targetVerification.list.board.id) {
-      return res.status(400).json({
-        success: false,
-        message: "Cannot move card to a list in a different board"
-      })
+      return errorResponse(res, "Cannot move card to a list in a different board", HTTP_STATUS.BAD_REQUEST)
     }
 
     const sourceListId = card.listId
@@ -265,10 +200,7 @@ const moveCard = async (req, res) => {
 
     if (isSameList) {
       if (sourcePosition === targetPosition) {
-        return res.json({
-          success: true,
-          data: card
-        })
+        return successResponse(res, card, "Card position unchanged")
       }
 
       if (targetPosition > sourcePosition) {
@@ -319,15 +251,9 @@ const moveCard = async (req, res) => {
 
     await card.update({ listId: targetListId, position: targetPosition })
 
-    res.json({
-      success: true,
-      data: card
-    })
+    return successResponse(res, card, "Card moved successfully")
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    })
+    return errorResponse(res, error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
   }
 }
 
@@ -346,30 +272,18 @@ const toggleComplete = async (req, res) => {
     })
 
     if (!card) {
-      return res.status(404).json({
-        success: false,
-        message: "Card not found"
-      })
+      return errorResponse(res, "Card not found", HTTP_STATUS.NOT_FOUND)
     }
 
     if (card.list.board.ownerId !== req.user.id) {
-      return res.status(403).json({
-        success: false,
-        message: "You don't have permission to update this card"
-      })
+      return errorResponse(res, "You don't have permission to update this card", HTTP_STATUS.FORBIDDEN)
     }
 
     await card.update({ isCompleted: !card.isCompleted })
 
-    res.json({
-      success: true,
-      data: card
-    })
+    return successResponse(res, card, "Card status updated successfully")
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    })
+    return errorResponse(res, error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
   }
 }
 

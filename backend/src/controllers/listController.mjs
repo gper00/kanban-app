@@ -1,5 +1,6 @@
 import { List, Board } from "../models/index.mjs"
 import { Op } from "sequelize"
+import { successResponse, errorResponse, HTTP_STATUS } from "../utils/response.mjs"
 
 const getAllLists = async (req, res) => {
   try {
@@ -10,10 +11,7 @@ const getAllLists = async (req, res) => {
     })
 
     if (!board) {
-      return res.status(404).json({
-        success: false,
-        message: "Board not found"
-      })
+      return errorResponse(res, "Board not found", HTTP_STATUS.NOT_FOUND)
     }
 
     const lists = await List.findAll({
@@ -21,15 +19,9 @@ const getAllLists = async (req, res) => {
       order: [["position", "ASC"]]
     })
 
-    res.json({
-      success: true,
-      data: lists
-    })
+    return successResponse(res, lists, "Lists retrieved successfully")
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    })
+    return errorResponse(res, error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
   }
 }
 
@@ -42,10 +34,7 @@ const createList = async (req, res) => {
     })
 
     if (!board) {
-      return res.status(404).json({
-        success: false,
-        message: "Board not found"
-      })
+      return errorResponse(res, "Board not found", HTTP_STATUS.NOT_FOUND)
     }
 
     let listPosition = position
@@ -61,15 +50,9 @@ const createList = async (req, res) => {
       boardId
     })
 
-    res.status(201).json({
-      success: true,
-      data: list
-    })
+    return successResponse(res, list, "List created successfully", HTTP_STATUS.CREATED)
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    })
+    return errorResponse(res, error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
   }
 }
 
@@ -83,30 +66,18 @@ const updateList = async (req, res) => {
     })
 
     if (!list) {
-      return res.status(404).json({
-        success: false,
-        message: "List not found"
-      })
+      return errorResponse(res, "List not found", HTTP_STATUS.NOT_FOUND)
     }
 
     if (list.board.ownerId !== req.user.id) {
-      return res.status(403).json({
-        success: false,
-        message: "You don't have permission to update this list"
-      })
+      return errorResponse(res, "You don't have permission to update this list", HTTP_STATUS.FORBIDDEN)
     }
 
     await list.update({ title, description, isArchived })
 
-    res.json({
-      success: true,
-      data: list
-    })
+    return successResponse(res, list, "List updated successfully")
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    })
+    return errorResponse(res, error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
   }
 }
 
@@ -119,30 +90,18 @@ const deleteList = async (req, res) => {
     })
 
     if (!list) {
-      return res.status(404).json({
-        success: false,
-        message: "List not found"
-      })
+      return errorResponse(res, "List not found", HTTP_STATUS.NOT_FOUND)
     }
 
     if (list.board.ownerId !== req.user.id) {
-      return res.status(403).json({
-        success: false,
-        message: "You don't have permission to delete this list"
-      })
+      return errorResponse(res, "You don't have permission to delete this list", HTTP_STATUS.FORBIDDEN)
     }
 
     await list.destroy()
 
-    res.json({
-      success: true,
-      message: "List deleted successfully"
-    })
+    return successResponse(res, null, "List deleted successfully")
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    })
+    return errorResponse(res, error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
   }
 }
 
@@ -156,27 +115,18 @@ const moveList = async (req, res) => {
     })
 
     if (!list) {
-      return res.status(404).json({
-        success: false,
-        message: "List not found"
-      })
+      return errorResponse(res, "List not found", HTTP_STATUS.NOT_FOUND)
     }
 
     if (list.board.ownerId !== req.user.id) {
-      return res.status(403).json({
-        success: false,
-        message: "You don't have permission to move this list"
-      })
+      return errorResponse(res, "You don't have permission to move this list", HTTP_STATUS.FORBIDDEN)
     }
 
     const oldPosition = list.position
     const newPosition = position
 
     if (oldPosition === newPosition) {
-      return res.json({
-        success: true,
-        data: list
-      })
+      return successResponse(res, list, "List position unchanged")
     }
 
     if (newPosition > oldPosition) {
@@ -208,15 +158,9 @@ const moveList = async (req, res) => {
       order: [["position", "ASC"]]
     })
 
-    res.json({
-      success: true,
-      data: updatedLists
-    })
+    return successResponse(res, updatedLists, "List moved successfully")
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    })
+    return errorResponse(res, error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
   }
 }
 

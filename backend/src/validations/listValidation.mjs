@@ -1,16 +1,5 @@
-import { body, param, query, validationResult } from "express-validator"
-
-const handleValidationErrors = (req, res, next) => {
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    return res.status(400).json({
-      success: false,
-      message: "Validation failed",
-      errors: errors.array().map((error) => error.msg)
-    })
-  }
-  next()
-}
+import { body, param, query } from "express-validator"
+import { handleValidationErrors } from "../utils/response.mjs"
 
 const createListValidation = [
   body("title")

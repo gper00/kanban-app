@@ -1,4 +1,5 @@
 import { Board, List, Card } from "../models/index.mjs"
+import { successResponse, errorResponse, HTTP_STATUS } from "../utils/response.mjs"
 
 const getAllBoards = async (req, res) => {
   try {
@@ -7,15 +8,9 @@ const getAllBoards = async (req, res) => {
       order: [["createdAt", "DESC"]]
     })
 
-    res.json({
-      success: true,
-      data: boards
-    })
+    return successResponse(res, boards, "Boards retrieved successfully")
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    })
+    return errorResponse(res, error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
   }
 }
 
@@ -26,15 +21,9 @@ const createBoard = async (req, res) => {
       ownerId: req.user.id
     })
 
-    res.status(201).json({
-      success: true,
-      data: board
-    })
+    return successResponse(res, board, "Board created successfully", HTTP_STATUS.CREATED)
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    })
+    return errorResponse(res, error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
   }
 }
 
@@ -62,21 +51,12 @@ const getBoardById = async (req, res) => {
     })
 
     if (!board) {
-      return res.status(404).json({
-        success: false,
-        message: "Board not found"
-      })
+      return errorResponse(res, "Board not found", HTTP_STATUS.NOT_FOUND)
     }
 
-    res.json({
-      success: true,
-      data: board
-    })
+    return successResponse(res, board, "Board retrieved successfully")
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    })
+    return errorResponse(res, error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
   }
 }
 
@@ -90,22 +70,13 @@ const updateBoard = async (req, res) => {
     })
 
     if (!updated) {
-      return res.status(404).json({
-        success: false,
-        message: "Board not found"
-      })
+      return errorResponse(res, "Board not found", HTTP_STATUS.NOT_FOUND)
     }
 
     const board = await Board.findByPk(req.params.id)
-    res.json({
-      success: true,
-      data: board
-    })
+    return successResponse(res, board, "Board updated successfully")
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    })
+    return errorResponse(res, error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
   }
 }
 
@@ -119,21 +90,12 @@ const deleteBoard = async (req, res) => {
     })
 
     if (!deleted) {
-      return res.status(404).json({
-        success: false,
-        message: "Board not found"
-      })
+      return errorResponse(res, "Board not found", HTTP_STATUS.NOT_FOUND)
     }
 
-    res.json({
-      success: true,
-      message: "Board deleted successfully"
-    })
+    return successResponse(res, null, "Board deleted successfully")
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    })
+    return errorResponse(res, error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
   }
 }
 

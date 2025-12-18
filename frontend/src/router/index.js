@@ -20,13 +20,13 @@ const router = createRouter({
       path: '/',
       name: 'Home',
       component: () => import('@/views/BoardView.vue'),
-      meta: { requiresAuth: false }
+      meta: { requiresAuth: true }
     },
         {
          path: '/pomodoro',
          name: 'Pomodoro',
          component: () => import('@/views/PomodoroView.vue'),
-         meta: { requiresAuth: false } 
+         meta: { requiresAuth: false }
         },
         {
           path: '/privacy-policy',
