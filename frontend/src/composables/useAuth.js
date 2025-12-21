@@ -8,18 +8,25 @@ export function useAuth() {
   const login = async (credentials) => {
     try {
       const data = await authService.login(credentials)
-      user.value = data.user
+      user.value = data.user || (data.data && data.data.user)
       return { success: true, data }
     } catch (error) {
-      console.error('Login Error:', error)
+      // Hanya log error sistem (bukan salah password/401)
+      if (error.response?.status !== 401) {
+        console.error('Login Error:', error)
+      }
+      
       let errorMessage = 'Login gagal'
 
       if (error.response) {
-        // Server responded with a status code outside 2xx
-        errorMessage = error.response.data?.error || error.response.data?.message || `Error: ${error.response.status}`
+        const responseData = error.response.data
+        // Jika ada array errors dari validasi, gabungkan menjadi satu string
+        if (responseData.errors && Array.isArray(responseData.errors)) {
+          errorMessage = responseData.errors.join('\n')
+        } else {
+          errorMessage = responseData?.error || responseData?.message || `Error: ${error.response.status}`
+        }
       } else if (error.request) {
-        console.log("tes");
-        // Request was made but no response received (Network Error/CORS)
         errorMessage = 'Tidak dapat menghubungi server. Pastikan server berjalan.'
       } else {
         errorMessage = error.message
@@ -35,14 +42,20 @@ export function useAuth() {
   const register = async (userData) => {
     try {
       const data = await authService.register(userData)
-      user.value = data.user
+      user.value = data.user || (data.data && data.data.user)
       return { success: true, data }
     } catch (error) {
       console.error('Register Error:', error)
       let errorMessage = 'Registrasi gagal'
 
       if (error.response) {
-        errorMessage = error.response.data?.error || error.response.data?.message || `Error: ${error.response.status}`
+        const responseData = error.response.data
+        // Jika ada array errors dari validasi, gabungkan menjadi satu string
+        if (responseData.errors && Array.isArray(responseData.errors)) {
+          errorMessage = responseData.errors.join('\n')
+        } else {
+          errorMessage = responseData?.error || responseData?.message || `Error: ${error.response.status}`
+        }
       } else if (error.request) {
         errorMessage = 'Tidak dapat menghubungi server. Pastikan server berjalan.'
       } else {

@@ -21,6 +21,7 @@ const handleSubmit = async () => {
 
   try {
     const result = await login(formData.value)
+    // console.log(result.success)
 
     if (result.success) {
       router.push('/')
@@ -115,11 +116,7 @@ const handleSubmit = async () => {
                 </div>
               </label>
 
-              <div class="w-full text-right mt-2">
-                <a href="#" class="text-primary hover:underline text-sm font-normal leading-normal cursor-pointer">
-                  Lupa Kata Sandi?
-                </a>
-              </div>
+              <!-- <div class -->
 
               <div class="flex w-full py-3 justify-center mt-4">
                 <button

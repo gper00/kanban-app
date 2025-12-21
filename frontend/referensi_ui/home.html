@@ -1,29 +1,19 @@
 <!DOCTYPE html>
-
 <html class="light" lang="en">
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Tampilan Papan Kanban</title>
+    <title>Halaman Beranda Kanban</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-      rel="stylesheet"
-    />
     <link
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
       rel="stylesheet"
     />
-    <style>
-      .material-symbols-outlined {
-        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 20;
-      }
-    </style>
-    <script id="tailwind-config">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script>
       tailwind.config = {
         darkMode: "class",
         theme: {
@@ -32,14 +22,8 @@
               primary: "#197fe6",
               "background-light": "#f6f7f8",
               "background-dark": "#111921",
-              "surface-light": "#ffffff",
-              "surface-dark": "#1a242e",
-              "text-light-primary": "#0e141b",
-              "text-dark-primary": "#f6f7f8",
-              "text-light-secondary": "#4e7397",
-              "text-dark-secondary": "#a0b3c6",
-              "border-light": "#e7edf3",
-              "border-dark": "#334155"
+              "card-light": "#ffffff",
+              "card-dark": "#1e2732"
             },
             fontFamily: {
               display: ["Inter", "sans-serif"]
@@ -54,323 +38,352 @@
         }
       }
     </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+      .material-symbols-outlined.fill {
+        font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+    </style>
   </head>
   <body
-    class="font-display bg-background-light dark:bg-background-dark text-text-light-primary dark:text-text-dark-primary"
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased min-h-screen flex flex-col"
   >
-    <div class="flex h-screen w-full flex-col">
-      <!-- Top Nav Bar -->
-      <header
-        class="flex shrink-0 items-center justify-between border-b border-solid border-border-light dark:border-border-dark px-6 py-3 bg-surface-light dark:bg-surface-dark"
-      >
-        <div class="flex items-center gap-4">
-          <span class="material-symbols-outlined text-primary text-2xl"
-            >view_kanban</span
-          >
-          <h1 class="text-lg font-bold">Proyek Peluncuran Aplikasi</h1>
+    <nav
+      class="sticky top-0 z-30 w-full bg-white/90 dark:bg-card-dark/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between"
+    >
+      <div class="flex items-center gap-3">
+        <div
+          class="flex items-center justify-center size-9 rounded-lg bg-primary text-white shadow-md shadow-primary/20"
+        >
+          <span class="material-symbols-outlined text-xl">view_kanban</span>
         </div>
-        <div class="flex flex-1 items-center justify-end gap-6">
-          <div class="flex items-center gap-4">
-            <a class="flex items-center gap-1.5 text-sm font-medium" href="#">
-              <span class="material-symbols-outlined text-xl">share</span>
-              Share
-            </a>
-            <a class="flex items-center gap-1.5 text-sm font-medium" href="#">
-              <span class="material-symbols-outlined text-xl">filter_list</span>
-              Filter
-            </a>
+        <span
+          class="text-lg font-bold tracking-tight text-slate-900 dark:text-white"
+          >Kanban Pro</span
+        >
+      </div>
+      <div class="flex items-center gap-6">
+        <div
+          class="flex items-center gap-3 pl-6 border-l border-slate-200 dark:border-slate-700"
+        >
+          <div class="hidden md:flex flex-col items-end">
+            <p class="text-sm font-semibold text-slate-900 dark:text-white">
+              Alex Johnson
+            </p>
+            <p class="text-xs text-slate-500 dark:text-slate-400">
+              alex@kanbanpro.com
+            </p>
           </div>
-          <div class="flex items-center gap-2">
-            <button
-              class="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold"
-            >
-              <span class="material-symbols-outlined text-xl">add</span>
-              <span class="truncate">Add Card</span>
-            </button>
+          <div
+            class="relative cursor-pointer hover:opacity-90 transition-opacity"
+          >
             <div
-              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
-              data-alt="User avatar image"
+              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 ring-2 ring-slate-100 dark:ring-slate-700"
               style="
-                background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBioUz4Q_8eUxXVY-nd0lzF58HBCIz287j2f9IYCqd3lTi8P4P3g5x32m-FQcAyiWVAaFvaxtdGZmhcmoDlpEB_u8Kv_trZ6NBXltPBOJ7jZO4APxQNQSVPhIOoE1ttGyUTzCaPVl3HRnZdnaYilAwxLzdN8vuERM2VbazaNNmF69U1LLUBABjPdJw9G5in3v60GUw4Y7TnNNPuffmvHZkNHHfMYOC8VyE22LA6O4ajyWlQYcBvxmDmGjb2poI_weIcgC1xNdyRNtMk');
+                background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuApJpAqetf7Rlvg1yCRGDmms3cw4BkbVbJNb-a2XsHYmlR1GGpGCRNabUhV8_puzLPhS8_Nm1JyURAGPf8XAwf1y_Vkc1bgs4cf1kyUDpEjHgoznAXHvQ347KJkFA_Gxk1SLaBMlMTvUJmNA5j3-ajArdikQclqtBN12YjcscIHMQsxTEx9R2hja-yvueSYkWcM7KNCXIZheUpGlNSu7KbSNdwNRGyWRZSo95zkGQO300K3PK8JMKvXe1oqOktkORxfWLRQ1XbXw-lX');
               "
+            ></div>
+            <div
+              class="absolute bottom-0 right-0 size-2.5 bg-green-500 border-2 border-white dark:border-card-dark rounded-full"
             ></div>
           </div>
         </div>
-      </header>
-      <!-- Main Content -->
-      <main class="flex flex-1 flex-col overflow-x-hidden">
-        <!-- Chips/Filters Bar -->
-        <div
-          class="shrink-0 border-b border-solid border-border-light dark:border-border-dark px-6 py-3 bg-surface-light/50 dark:bg-surface-dark/50 backdrop-blur-sm"
+      </div>
+    </nav>
+    <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div
+        class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10"
+      >
+        <div>
+          <h1
+            class="text-3xl font-black tracking-tight text-slate-900 dark:text-white mb-2"
+          >
+            Papan Saya
+          </h1>
+          <p class="text-slate-500 dark:text-slate-400 text-base max-w-2xl">
+            Kelola semua proyek Anda. Pilih papan untuk mulai bekerja.
+          </p>
+        </div>
+        <button
+          class="flex items-center justify-center gap-2 rounded-lg h-11 px-6 bg-primary hover:bg-blue-600 text-white text-sm font-bold shadow-lg shadow-primary/20 transition-all active:scale-95 whitespace-nowrap"
         >
-          <div class="flex gap-3 items-center">
-            <button
-              class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary/10 dark:bg-primary/20 pl-4 pr-2 text-primary"
-            >
-              <p class="text-sm font-medium leading-normal">All tasks</p>
-              <span class="material-symbols-outlined text-base"
-                >expand_more</span
-              >
-            </button>
-            <button
-              class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-border-light dark:bg-border-dark pl-4 pr-2"
-            >
-              <p class="text-sm font-medium leading-normal">UI Design</p>
-              <span class="material-symbols-outlined text-base"
-                >expand_more</span
-              >
-            </button>
-            <button
-              class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-border-light dark:bg-border-dark pl-4 pr-2"
-            >
-              <p class="text-sm font-medium leading-normal">Urgent</p>
-              <span class="material-symbols-outlined text-base"
-                >expand_more</span
-              >
-            </button>
-          </div>
+          <span class="material-symbols-outlined text-xl">add</span>
+          <span>Buat Papan Baru</span>
+        </button>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-4 mb-8">
+        <div class="relative flex-1 max-w-md">
+          <span
+            class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"
+          >
+            <span class="material-symbols-outlined">search</span>
+          </span>
+          <input
+            class="w-full h-11 pl-10 pr-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-card-dark text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-primary focus:border-transparent shadow-sm text-sm"
+            placeholder="Cari berdasarkan judul..."
+            type="text"
+          />
         </div>
-        <!-- Kanban Board -->
-        <div class="flex flex-1 gap-6 p-6 overflow-x-auto">
-          <!-- List: To Do -->
-          <div
-            class="flex w-80 shrink-0 flex-col rounded-xl bg-background-light dark:bg-surface-dark"
+        <div class="flex gap-2 overflow-x-auto pb-2 sm:pb-0 no-scrollbar">
+          <button
+            class="flex h-11 items-center justify-center px-5 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-medium shadow-sm whitespace-nowrap transition-colors"
           >
-            <div class="flex items-center justify-between px-4 pb-3 pt-5">
-              <h2 class="text-base font-bold">
-                To Do
-                <span
-                  class="ml-2 rounded-full bg-border-light dark:bg-border-dark px-2 py-0.5 text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary"
-                  >2</span
-                >
-              </h2>
-              <button
-                class="text-text-light-secondary dark:text-text-dark-secondary"
-              >
-                <span class="material-symbols-outlined text-xl"
-                  >more_horiz</span
-                >
-              </button>
-            </div>
-            <div class="flex flex-col gap-4 px-4 pb-4 overflow-y-auto">
-              <!-- Card 1 -->
-              <div
-                class="flex flex-col rounded-lg shadow-[0_1px_3px_rgba(0,0,0,0.07)] bg-surface-light dark:bg-background-dark border border-transparent dark:border-border-dark"
-              >
-                <div class="flex w-full flex-col gap-2 p-4">
-                  <span
-                    class="text-xs font-medium text-blue-500 bg-blue-500/10 rounded-full px-2 py-0.5 w-fit"
-                    >UI Design</span
-                  >
-                  <p class="text-base font-bold">Desain Halaman Login</p>
-                  <p
-                    class="text-sm text-text-light-secondary dark:text-text-dark-secondary"
-                  >
-                    Rancang mockup dan prototipe untuk halaman login pengguna.
-                  </p>
-                  <div class="mt-2 flex items-center justify-between">
-                    <div
-                      class="flex items-center gap-2 text-sm text-text-light-secondary dark:text-text-dark-secondary"
-                    >
-                      <span class="material-symbols-outlined text-lg"
-                        >calendar_today</span
-                      >
-                      <span>25 Dec</span>
-                    </div>
-                    <div class="flex -space-x-2">
-                      <div
-                        class="size-6 rounded-full bg-cover"
-                        data-alt="Avatar of team member 1"
-                        style="
-                          background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD-FtHAgeB64BvD-D7DZOR8xc4f-Oplm92IuGhJVWO_MbJ3Zq_Qp4tmeZZYdSG0CjfkLzNI5D3aJs7JeDqJGo_PJV6tJY8ZdmvMUhe_dMnLMTCZr5337SnzG1EDy6Y-HlMciB-i7a2giD2iKYKAvdx_4GQWEQfjAuN9X-2N8IYYkBUR-n5K2POoRhms3JuPMahjXinUNhB_NgdFea_8AJ-TQT2YGdQtdYv7t1FaipnR_4885_L152A7JCdPKpqlvq_cgrY1Cw-HnXNz');
-                        "
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- Card 2 -->
-              <div
-                class="flex flex-col rounded-lg shadow-[0_1px_3px_rgba(0,0,0,0.07)] bg-surface-light dark:bg-background-dark border border-transparent dark:border-border-dark"
-              >
-                <div class="flex w-full flex-col gap-2 p-4">
-                  <span
-                    class="text-xs font-medium text-purple-500 bg-purple-500/10 rounded-full px-2 py-0.5 w-fit"
-                    >Backend</span
-                  >
-                  <p class="text-base font-bold">Kembangkan API Otentikasi</p>
-                  <p
-                    class="text-sm text-text-light-secondary dark:text-text-dark-secondary"
-                  >
-                    Bangun endpoint untuk registrasi dan login pengguna.
-                  </p>
-                  <div class="mt-2 flex items-center justify-between">
-                    <div
-                      class="flex items-center gap-2 text-sm text-text-light-secondary dark:text-text-dark-secondary"
-                    >
-                      <span class="material-symbols-outlined text-lg"
-                        >calendar_today</span
-                      >
-                      <span>28 Dec</span>
-                    </div>
-                    <div class="flex -space-x-2">
-                      <div
-                        class="size-6 rounded-full bg-cover"
-                        data-alt="Avatar of team member 2"
-                        style="
-                          background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCdggqGKThjC9Op7sEUZ6EJzpagJWQloJhPpJ5r0B6k8fCy8DkskoQd3IEZ6H_DEs3Uobkh7nouhRF8Iyki1wyqJBWPPSFOak3Z4r2FIBt73dxBux9toz0tFRHgocVtThrYTYnMzlBWWOopTTr_cFlOK8sbhjRb0xCAYiK9yReAkhoTJNGylIKgIDj4Lk4Y_KXPTsTGvSCMcm6c9a5CgHzB3s1njr-EQCTqE4tgrM6OdWCJCZ4mBAfKvQBmeLs3Kg1oFwxCCZbrwXfe');
-                        "
-                      ></div>
-                      <div
-                        class="size-6 rounded-full bg-cover"
-                        data-alt="Avatar of team member 3"
-                        style="
-                          background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBIODJdYncAAmiGKYWisWh5zPih42w8aRnKlMl_K2d5HcPiZvlZuruQg7L-rN4UwdfoabJhK_1rz2x5NuwU3V4-GRqzK0jeqaMKbxBtK20tMrihSpjWczGF7UId0CD1Gf2ULCLj0C2VDyC6l9E8C_D99Z7I8EBgwCBwgftqiYEADfgWgpyGKGv8ZZSAJ-77v7IblnTKWcX2X8PnxbRLCI4XPGVnhFMBT9Gt5M19gccpZzqbcaYnUMcYYDleBZLadvAE3NcVz8Hz1A5g');
-                        "
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            Semua
+          </button>
+          <button
+            class="flex h-11 items-center justify-center px-5 rounded-lg bg-white dark:bg-card-dark text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium whitespace-nowrap transition-colors"
+          >
+            <span class="material-symbols-outlined text-base mr-2">star</span>
+            Favorit
+          </button>
+          <button
+            class="flex h-11 items-center justify-center px-5 rounded-lg bg-white dark:bg-card-dark text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium whitespace-nowrap transition-colors"
+          >
+            <span class="material-symbols-outlined text-base mr-2">lock</span>
+            Pribadi
+          </button>
+        </div>
+      </div>
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+      >
+        <button
+          class="group flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-800/50 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-6 hover:border-primary hover:bg-primary/5 transition-all cursor-pointer min-h-[220px]"
+        >
+          <div
+            class="size-14 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center mb-4 shadow-sm group-hover:scale-110 transition-transform"
+          >
+            <span class="material-symbols-outlined text-primary text-3xl"
+              >add</span
+            >
           </div>
-          <!-- List: In Progress -->
-          <div
-            class="flex w-80 shrink-0 flex-col rounded-xl bg-background-light dark:bg-surface-dark"
+          <h3 class="text-slate-900 dark:text-white text-lg font-bold">
+            Buat Papan
+          </h3>
+          <p
+            class="text-slate-500 dark:text-slate-400 text-xs mt-1 text-center"
           >
-            <div class="flex items-center justify-between px-4 pb-3 pt-5">
-              <h2 class="text-base font-bold">
-                In Progress
-                <span
-                  class="ml-2 rounded-full bg-border-light dark:bg-border-dark px-2 py-0.5 text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary"
-                  >1</span
-                >
-              </h2>
-              <button
-                class="text-text-light-secondary dark:text-text-dark-secondary"
+            Mulai proyek baru dari awal
+          </p>
+        </button>
+        <div
+          class="group relative flex flex-col bg-white dark:bg-card-dark border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden hover:shadow-xl hover:shadow-slate-200/50 dark:hover:shadow-black/30 hover:border-primary/50 transition-all cursor-pointer min-h-[220px]"
+        >
+          <div class="h-3 w-full bg-purple-500"></div>
+          <div class="p-5 flex flex-col flex-1">
+            <div class="flex justify-between items-start mb-2">
+              <h3
+                class="text-slate-900 dark:text-white text-lg font-bold group-hover:text-primary transition-colors line-clamp-1"
               >
-                <span class="material-symbols-outlined text-xl"
-                  >more_horiz</span
-                >
-              </button>
+                Website Redesign
+              </h3>
+              <span
+                class="material-symbols-outlined text-slate-400 text-xl cursor-pointer hover:text-slate-600"
+                >more_horiz</span
+              >
             </div>
-            <div class="flex flex-col gap-4 px-4 pb-4 overflow-y-auto">
-              <!-- Card 3 -->
-              <div
-                class="flex flex-col rounded-lg shadow-[0_1px_3px_rgba(0,0,0,0.07)] bg-surface-light dark:bg-background-dark border border-transparent dark:border-border-dark"
-              >
+            <p
+              class="text-slate-500 dark:text-slate-400 text-sm mb-6 line-clamp-2 leading-relaxed"
+            >
+              Perombakan visual total untuk homepage dan dashboard Q3.
+            </p>
+            <div
+              class="mt-auto flex items-center justify-between border-t border-slate-100 dark:border-slate-700/50 pt-4"
+            >
+              <div class="flex items-center gap-2">
                 <div
-                  class="aspect-video w-full rounded-t-lg bg-cover bg-center"
-                  data-alt="Image related to database schema design"
+                  class="size-6 rounded-full bg-cover bg-center ring-1 ring-slate-200 dark:ring-slate-700"
                   style="
-                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDN4BUsQ8M_zYU9hiYy1I4WQgbSKiEx1QiNu7FAIWONhXuiSpqb_8rPZAGVk3QG-tYokkLPzYAF2NKoxUM_I-xymoYQD7Zswef9s7CsjmhpXOzLlqz_XdZC9bDfBAMRZUI7O_mdwBG-F4kfmafkekLNzNADyoo7OGddvyIl85p4Yxmh6Rel2fI8E6Em0FyOwyIad7sB7PU7dZyrvM4FkJX15HQ92Lbig08D33jPHOjzsyAUx9oQXHCzg9S6B0rGgLOskNfQD-Bkk-TD');
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuApJpAqetf7Rlvg1yCRGDmms3cw4BkbVbJNb-a2XsHYmlR1GGpGCRNabUhV8_puzLPhS8_Nm1JyURAGPf8XAwf1y_Vkc1bgs4cf1kyUDpEjHgoznAXHvQ347KJkFA_Gxk1SLaBMlMTvUJmNA5j3-ajArdikQclqtBN12YjcscIHMQsxTEx9R2hja-yvueSYkWcM7KNCXIZheUpGlNSu7KbSNdwNRGyWRZSo95zkGQO300K3PK8JMKvXe1oqOktkORxfWLRQ1XbXw-lX');
                   "
+                  title="Owner: Alex"
                 ></div>
-                <div class="flex w-full flex-col gap-2 p-4">
-                  <span
-                    class="text-xs font-medium text-purple-500 bg-purple-500/10 rounded-full px-2 py-0.5 w-fit"
-                    >Backend</span
-                  >
-                  <p class="text-base font-bold">Desain Skema Database</p>
-                  <p
-                    class="text-sm text-text-light-secondary dark:text-text-dark-secondary"
-                  >
-                    Finalisasi struktur tabel untuk pengguna, proyek, dan tugas.
-                  </p>
-                  <div class="mt-2 flex items-center justify-between">
-                    <div class="flex items-center gap-2 text-sm text-red-500">
-                      <span class="material-symbols-outlined text-lg"
-                        >calendar_today</span
-                      >
-                      <span>Due Tomorrow</span>
-                    </div>
-                    <div class="flex -space-x-2">
-                      <div
-                        class="size-6 rounded-full bg-cover"
-                        data-alt="Avatar of team member 2"
-                        style="
-                          background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCsirrnztoVxDlvv5uHsYXqK-yhaOJXLMfP9cJNYMKsrn4rUVcpqKGGV842DvbwcPKfISRgVjGXqcSOdGtpACbNZdcwck79aBiMmSMLqeQcJtkvXQn7HKSJTk5ViJLTe_ZIo0cIkLqfypk3rx9GLIpERStk2ZpuKAUahg3lK8nTtNNQM_gJsVOZRNaa9bfdjFBYr56L-Xavha1s5xCaJ2YLHaRi4YslZ77EWRTLbljDICOEweyvj9J9_v476LbjzZuNq8swrjEdAQch');
-                        "
-                      ></div>
-                    </div>
-                  </div>
-                </div>
+                <span class="text-xs text-slate-500 font-medium">Alex J.</span>
               </div>
-            </div>
-          </div>
-          <!-- List: Done -->
-          <div
-            class="flex w-80 shrink-0 flex-col rounded-xl bg-background-light dark:bg-surface-dark"
-          >
-            <div class="flex items-center justify-between px-4 pb-3 pt-5">
-              <h2 class="text-base font-bold">
-                Done
-                <span
-                  class="ml-2 rounded-full bg-border-light dark:bg-border-dark px-2 py-0.5 text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary"
-                  >1</span
-                >
-              </h2>
-              <button
-                class="text-text-light-secondary dark:text-text-dark-secondary"
-              >
-                <span class="material-symbols-outlined text-xl"
-                  >more_horiz</span
-                >
-              </button>
-            </div>
-            <div class="flex flex-col gap-4 px-4 pb-4 overflow-y-auto">
-              <!-- Card 4 -->
               <div
-                class="flex flex-col rounded-lg shadow-[0_1px_3px_rgba(0,0,0,0.07)] bg-surface-light dark:bg-background-dark border border-transparent dark:border-border-dark opacity-70"
+                class="flex items-center gap-1 text-slate-400"
+                title="Public Board"
               >
-                <div class="flex w-full flex-col gap-2 p-4">
-                  <span
-                    class="text-xs font-medium text-green-500 bg-green-500/10 rounded-full px-2 py-0.5 w-fit"
-                    >Riset</span
-                  >
-                  <p class="text-base font-bold line-through">
-                    Analisis Kompetitor
-                  </p>
-                  <p
-                    class="text-sm text-text-light-secondary dark:text-text-dark-secondary"
-                  >
-                    Tinjau fitur dan UI dari aplikasi manajemen proyek
-                    terkemuka.
-                  </p>
-                  <div class="mt-2 flex items-center justify-between">
-                    <div
-                      class="flex items-center gap-2 text-sm text-green-600 dark:text-green-500"
-                    >
-                      <span class="material-symbols-outlined text-lg"
-                        >task_alt</span
-                      >
-                      <span>Completed</span>
-                    </div>
-                    <div class="flex -space-x-2">
-                      <div
-                        class="size-6 rounded-full bg-cover"
-                        data-alt="Avatar of team member 1"
-                        style="
-                          background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCG2IC6tVWXrfQgNE0OLzg_ReHXuC2NllQ-h5X9n0AxzOIfQgXAa9vUx48WeJl2rmkOf5J3TOEinoQ0y4qY-DumZb_tTsI_Qag1xjOReC3O8YbX40CVzM_RC0DzE5kwFl4rgeABuHk9Pt41A7WJ0WIAIbPoLLe1VMBCk4iVyx80JGGxVz8UBB2MyT742dOp7FSgBMGv2E5ZC_j037zpa0Kwttxaq2gKiNZl3aUwzAbwMgCLuVtjBLA6r32vF1kQ1TuwUEGlQA3KC4S6');
-                        "
-                      ></div>
-                    </div>
-                  </div>
-                </div>
+                <span class="material-symbols-outlined text-sm">public</span>
               </div>
             </div>
-          </div>
-          <!-- Add a list -->
-          <div class="w-80 shrink-0">
-            <button
-              class="flex w-full items-center justify-center gap-2 rounded-xl bg-black/5 dark:bg-white/5 h-12 text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
-            >
-              <span class="material-symbols-outlined text-xl">add</span>
-              Add another list
-            </button>
           </div>
         </div>
-      </main>
-    </div>
+        <div
+          class="group relative flex flex-col bg-white dark:bg-card-dark border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden hover:shadow-xl hover:shadow-slate-200/50 dark:hover:shadow-black/30 hover:border-primary/50 transition-all cursor-pointer min-h-[220px]"
+        >
+          <div class="h-3 w-full bg-blue-500"></div>
+          <div class="p-5 flex flex-col flex-1">
+            <div class="flex justify-between items-start mb-2">
+              <h3
+                class="text-slate-900 dark:text-white text-lg font-bold group-hover:text-primary transition-colors line-clamp-1"
+              >
+                Q3 Roadmap
+              </h3>
+              <span
+                class="material-symbols-outlined text-slate-400 text-xl cursor-pointer hover:text-slate-600"
+                >more_horiz</span
+              >
+            </div>
+            <p
+              class="text-slate-500 dark:text-slate-400 text-sm mb-6 line-clamp-2 leading-relaxed"
+            >
+              Perencanaan fitur produk dan timeline peluncuran.
+            </p>
+            <div
+              class="mt-auto flex items-center justify-between border-t border-slate-100 dark:border-slate-700/50 pt-4"
+            >
+              <div class="flex items-center gap-2">
+                <div
+                  class="size-6 rounded-full bg-cover bg-center ring-1 ring-slate-200 dark:ring-slate-700"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuApJpAqetf7Rlvg1yCRGDmms3cw4BkbVbJNb-a2XsHYmlR1GGpGCRNabUhV8_puzLPhS8_Nm1JyURAGPf8XAwf1y_Vkc1bgs4cf1kyUDpEjHgoznAXHvQ347KJkFA_Gxk1SLaBMlMTvUJmNA5j3-ajArdikQclqtBN12YjcscIHMQsxTEx9R2hja-yvueSYkWcM7KNCXIZheUpGlNSu7KbSNdwNRGyWRZSo95zkGQO300K3PK8JMKvXe1oqOktkORxfWLRQ1XbXw-lX');
+                  "
+                  title="Owner: Alex"
+                ></div>
+                <span class="text-xs text-slate-500 font-medium">Alex J.</span>
+              </div>
+              <div
+                class="flex items-center gap-1 text-slate-400"
+                title="Private Board"
+              >
+                <span class="material-symbols-outlined text-sm">lock</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="group relative flex flex-col bg-white dark:bg-card-dark border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden hover:shadow-xl hover:shadow-slate-200/50 dark:hover:shadow-black/30 hover:border-primary/50 transition-all cursor-pointer min-h-[220px]"
+        >
+          <div class="h-3 w-full bg-green-500"></div>
+          <div class="p-5 flex flex-col flex-1">
+            <div class="flex justify-between items-start mb-2">
+              <h3
+                class="text-slate-900 dark:text-white text-lg font-bold group-hover:text-primary transition-colors line-clamp-1"
+              >
+                Marketing Campaign
+              </h3>
+              <span
+                class="material-symbols-outlined text-slate-400 text-xl cursor-pointer hover:text-slate-600"
+                >more_horiz</span
+              >
+            </div>
+            <p
+              class="text-slate-500 dark:text-slate-400 text-sm mb-6 line-clamp-2 leading-relaxed"
+            >
+              Kampanye sosial media bulan Juni untuk produk baru.
+            </p>
+            <div
+              class="mt-auto flex items-center justify-between border-t border-slate-100 dark:border-slate-700/50 pt-4"
+            >
+              <div class="flex items-center gap-2">
+                <div
+                  class="size-6 rounded-full bg-cover bg-center ring-1 ring-slate-200 dark:ring-slate-700"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAD2NDMpNhxkoQaYu-GA9dOdg5m1YgwfqADAjoGUbyqDBZR7k0YU1WcE3bMf9c7beXnLBP0R1rWDilaLJzsb5dG6H3nx3FG6-MtaOjc4llM6AGRIP75HBFbg8x5UDilAbpwA-1SiaIjqbKTV2pueTqzBbK9670aHOgXw-QfXqAThl1k2_KPIS0vATaXb0fhOD_tE-n9GoL0BPmoDn-90SQl_PzxylKV1e5J-N4c5fle_nMdYANigEYsAhRs1Jfd-jsoQvGqShWWcS6j');
+                  "
+                  title="Owner: Sarah"
+                ></div>
+                <span class="text-xs text-slate-500 font-medium">Sarah M.</span>
+              </div>
+              <div
+                class="flex items-center gap-1 text-slate-400"
+                title="Team Board"
+              >
+                <span class="material-symbols-outlined text-sm">group</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="group relative flex flex-col bg-white dark:bg-card-dark border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden hover:shadow-xl hover:shadow-slate-200/50 dark:hover:shadow-black/30 hover:border-primary/50 transition-all cursor-pointer min-h-[220px]"
+        >
+          <div class="h-3 w-full bg-orange-500"></div>
+          <div class="p-5 flex flex-col flex-1">
+            <div class="flex justify-between items-start mb-2">
+              <h3
+                class="text-slate-900 dark:text-white text-lg font-bold group-hover:text-primary transition-colors line-clamp-1"
+              >
+                Personal Tasks
+              </h3>
+              <span
+                class="material-symbols-outlined text-slate-400 text-xl cursor-pointer hover:text-slate-600"
+                >more_horiz</span
+              >
+            </div>
+            <p
+              class="text-slate-500 dark:text-slate-400 text-sm mb-6 line-clamp-2 leading-relaxed"
+            >
+              Daftar tugas pribadi, belanja, dan pembelajaran.
+            </p>
+            <div
+              class="mt-auto flex items-center justify-between border-t border-slate-100 dark:border-slate-700/50 pt-4"
+            >
+              <div class="flex items-center gap-2">
+                <div
+                  class="size-6 rounded-full bg-cover bg-center ring-1 ring-slate-200 dark:ring-slate-700"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuApJpAqetf7Rlvg1yCRGDmms3cw4BkbVbJNb-a2XsHYmlR1GGpGCRNabUhV8_puzLPhS8_Nm1JyURAGPf8XAwf1y_Vkc1bgs4cf1kyUDpEjHgoznAXHvQ347KJkFA_Gxk1SLaBMlMTvUJmNA5j3-ajArdikQclqtBN12YjcscIHMQsxTEx9R2hja-yvueSYkWcM7KNCXIZheUpGlNSu7KbSNdwNRGyWRZSo95zkGQO300K3PK8JMKvXe1oqOktkORxfWLRQ1XbXw-lX');
+                  "
+                  title="Owner: Alex"
+                ></div>
+                <span class="text-xs text-slate-500 font-medium">Alex J.</span>
+              </div>
+              <div
+                class="flex items-center gap-1 text-slate-400"
+                title="Private Board"
+              >
+                <span class="material-symbols-outlined text-sm">lock</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="group relative flex flex-col bg-white dark:bg-card-dark border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden hover:shadow-xl hover:shadow-slate-200/50 dark:hover:shadow-black/30 hover:border-primary/50 transition-all cursor-pointer min-h-[220px]"
+        >
+          <div class="h-3 w-full bg-pink-500"></div>
+          <div class="p-5 flex flex-col flex-1">
+            <div class="flex justify-between items-start mb-2">
+              <h3
+                class="text-slate-900 dark:text-white text-lg font-bold group-hover:text-primary transition-colors line-clamp-1"
+              >
+                Mobile App UX
+              </h3>
+              <span
+                class="material-symbols-outlined text-slate-400 text-xl cursor-pointer hover:text-slate-600"
+                >more_horiz</span
+              >
+            </div>
+            <p
+              class="text-slate-500 dark:text-slate-400 text-sm mb-6 line-clamp-2 leading-relaxed"
+            >
+              Riset pengguna dan wireframing aplikasi iOS.
+            </p>
+            <div
+              class="mt-auto flex items-center justify-between border-t border-slate-100 dark:border-slate-700/50 pt-4"
+            >
+              <div class="flex items-center gap-2">
+                <div
+                  class="size-6 rounded-full bg-cover bg-center ring-1 ring-slate-200 dark:ring-slate-700"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD71QRbT1Zf9KZu-6WRbzyNib1ChR01idvIUDOrVDI-QiS7g5VQtBhWSmcIUjWHfGmWi8E3aB611jqs_1FhhIEa6S9NyG1AAJ0QcT2IS2cxePRfGBQ22aEOxkEND2qBAkvEVIXU3iTFiQlV1PGJmj9Ajogi3YrZJsINM5sPXFS33pOzOk5Gj_Jeoz63H8q95KxsIQ8A7w3tifFKBNq5gf1U5lhYW01es3fpy5kpkNO-hQ4aESKxWF5GCjVQuxY-7-G8te-oqI0I7aNo');
+                  "
+                  title="Owner: David"
+                ></div>
+                <span class="text-xs text-slate-500 font-medium">David K.</span>
+              </div>
+              <div
+                class="flex items-center gap-1 text-slate-400"
+                title="Team Board"
+              >
+                <span class="material-symbols-outlined text-sm">group</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
   </body>
 </html>

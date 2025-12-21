@@ -8,6 +8,14 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits(['click'])
+
+const formattedDate = computed(() => {
+  if (!props.card.dueDate) return null
+  const date = new Date(props.card.dueDate)
+  return date.toLocaleDateString('id-ID', { month: 'short', day: 'numeric' })
+})
+
 const tagColorClass = computed(() => {
   const colors = {
     blue: 'text-blue-500 bg-blue-500/10',
@@ -21,7 +29,11 @@ const tagColorClass = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col rounded-lg shadow-[0_1px_3px_rgba(0,0,0,0.07)] bg-surface-light dark:bg-background-dark border border-transparent dark:border-border-dark cursor-pointer hover:shadow-md transition-shadow" :class="{ 'opacity-70': card.completed }">
+  <div 
+    @click="$emit('click', card)"
+    class="flex flex-col rounded-lg shadow-[0_1px_3px_rgba(0,0,0,0.07)] bg-surface-light dark:bg-background-dark border border-transparent dark:border-border-dark cursor-pointer hover:shadow-md transition-shadow" 
+    :class="{ 'opacity-70': card.completed }"
+  >
     
     <!-- Cover Image -->
     <div v-if="card.coverImage" class="aspect-video w-full rounded-t-lg bg-cover bg-center" :style="{ backgroundImage: `url('${card.coverImage}')` }"></div>
@@ -50,10 +62,14 @@ const tagColorClass = computed(() => {
           card.completed ? 'text-green-600 dark:text-green-500' : 
           'text-text-light-secondary dark:text-text-dark-secondary'
         ]">
-          <span class="material-symbols-outlined text-lg">
-            {{ card.completed ? 'task_alt' : 'calendar_today' }}
-          </span>
-          <span>{{ card.date }}</span>
+          <template v-if="card.completed">
+             <span class="material-symbols-outlined text-lg">task_alt</span>
+             <span>Selesai</span>
+          </template>
+          <template v-else-if="formattedDate">
+             <span class="material-symbols-outlined text-lg">calendar_today</span>
+             <span>{{ formattedDate }}</span>
+          </template>
         </div>
 
         <!-- Avatars -->
