@@ -174,8 +174,11 @@ const openCreateCardModal = (listId) => {
       </div>
 
       <div class="flex flex-1 items-center justify-end gap-4 sm:gap-6">
-        
-        <router-link to="/pomodoro" class="flex items-center gap-1.5 text-sm font-medium hover:text-primary transition-colors" title="Buka Timer Pomodoro">
+        <router-link 
+          :to="{ path: '/pomodoro', query: { fromBoard: currentBoard?.id } }" 
+          class="flex items-center gap-1.5 text-sm font-medium hover:text-primary transition-colors" 
+          title="Buka Timer Pomodoro"
+        >
           <span class="material-symbols-outlined text-xl">timer</span>
           <span class="hidden sm:inline">Pomodoro</span>
         </router-link>

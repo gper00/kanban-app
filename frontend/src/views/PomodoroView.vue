@@ -1,5 +1,8 @@
 <script setup>
 import { ref, onUnmounted, computed } from 'vue'
+import { useRoute } from 'vue-router' 
+
+const route = useRoute()
 
 // timer buat pomodoro
 const modes = {
@@ -103,13 +106,18 @@ onUnmounted(() => {
   stopTimer()
   if (audioPlayer.value) audioPlayer.value.pause()
 })
+
+const backLink = computed(() => {
+  const boardId = route.query.fromBoard
+  return boardId ? `/board/${boardId}` : '/boards'
+})
 </script>
 
 <template>
   <div :class="`min-h-screen flex flex-col items-center justify-center bg-gradient-to-br ${modes[currentMode].color} p-4 transition-colors duration-700 text-slate-800`, font-display">
-    <router-link to="/" class="absolute top-8 left-8 flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors font-medium">
+    <router-link :to="backLink" class="absolute top-8 left-8 flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors font-medium">
       <span class="material-symbols-outlined">arrow_back</span>
-      <span>Kembali ke Board</span>
+      <span>{{ route.query.fromBoard ? 'Kembali ke Board' : 'Kembali ke Dashboard' }}</span>
     </router-link>
 
     <div class="bg-white/70 backdrop-blur-xl rounded-[3rem] p-8 md:p-12 shadow-2xl border border-white/50 text-center w-full max-w-md relative overflow-hidden">

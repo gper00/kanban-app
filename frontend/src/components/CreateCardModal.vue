@@ -121,9 +121,7 @@ const handleSubmit = async () => {
             ></textarea>
           </div>
 
-          <!-- Row: Date -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <!-- Input: Tanggal Jatuh Tempo -->
             <div class="flex flex-col gap-2">
               <label class="text-[#0e141b] dark:text-slate-200 text-sm font-medium leading-normal" for="due-date">Tanggal Jatuh Tempo</label>
               <div class="relative flex w-full items-center rounded-lg">
@@ -134,7 +132,6 @@ const handleSubmit = async () => {
                   placeholder="Pilih tanggal" 
                   type="date"
                 />
-                <!-- Ikon kalender diabaikan karena input date modern sudah punya picker -->
               </div>
             </div>
           </div>

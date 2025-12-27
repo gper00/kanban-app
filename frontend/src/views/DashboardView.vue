@@ -73,7 +73,7 @@ const handleBoardClick = (boardId) => {
 const openBoardModal = (board = null) => {
   selectedBoard.value = board
   showBoardModal.value = true
-  activeMenuBoardId.value = null // Close menu if open
+  activeMenuBoardId.value = null 
 }
 
 const handleBoardSubmit = async (payload) => {
@@ -94,7 +94,7 @@ const handleBoardSubmit = async (payload) => {
 }
 
 const toggleBoardMenu = (boardId, event) => {
-  event.stopPropagation() // Prevent card click
+  event.stopPropagation() 
   if (activeMenuBoardId.value === boardId) {
     activeMenuBoardId.value = null
   } else {
@@ -109,25 +109,40 @@ const closeMenu = () => {
 
 <template>
   <div class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased min-h-screen flex flex-col" @click="closeMenu">
-    <nav class="sticky top-0 z-30 w-full bg-white/90 dark:bg-surface-dark/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+  <nav class="sticky top-0 z-30 w-full bg-white/90 dark:bg-surface-dark/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+    <div class="h-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
       <div class="flex items-center gap-2">
         <span class="material-symbols-outlined text-primary text-3xl">view_kanban</span>
-        <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Kanban App</span>
+        <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+          Kanban App
+        </span>
       </div>
+
       <div class="flex items-center gap-6">
         <div class="flex items-center gap-3 pl-6 border-l border-slate-200 dark:border-slate-700">
           <div class="hidden md:flex flex-col items-end">
-            <p class="text-sm font-semibold text-slate-900 dark:text-white">{{ user?.name || 'User' }}</p>
-            <p class="text-xs text-slate-500 dark:text-slate-400">{{ user?.email }}</p>
+            <p class="text-sm font-semibold text-slate-900 dark:text-white">
+              {{ user?.name || 'User' }}
+            </p>
+            <p class="text-xs text-slate-500 dark:text-slate-400">
+              {{ user?.email }}
+            </p>
           </div>
-          <div @click="handleLogout" class="relative cursor-pointer hover:opacity-90 transition-opacity" title="Logout">
+
+          <div
+            @click="handleLogout"
+            class="relative cursor-pointer hover:opacity-90 transition-opacity"
+            title="Logout"
+          >
             <div class="flex items-center justify-center bg-primary text-white rounded-full size-9 ring-2 ring-slate-100 dark:ring-slate-700">
               <span class="material-symbols-outlined text-lg">logout</span>
             </div>
           </div>
         </div>
       </div>
-    </nav>
+    </div>
+  </nav>
+
     <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <!-- Header Section -->
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
@@ -137,10 +152,6 @@ const closeMenu = () => {
             Selamat datang kembali, {{ user?.name }}!
           </p>
         </div>
-        <button @click="openBoardModal()" class="flex items-center justify-center gap-2 rounded-lg h-11 px-6 bg-primary hover:bg-blue-600 text-white text-sm font-bold shadow-lg shadow-primary/20 transition-all active:scale-95 whitespace-nowrap">
-          <span class="material-symbols-outlined text-xl">add</span>
-          <span>Buat Papan Baru</span>
-        </button>
       </div>
 
       <div class="flex flex-col sm:flex-row gap-4 mb-8">
@@ -154,10 +165,21 @@ const closeMenu = () => {
 
       <!-- My Boards Section -->
       <div class="mb-10">
-        <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-          <span class="material-symbols-outlined text-primary">person</span>
-          Papan Saya
-        </h2>
+        <div class="flex items-center gap-4 mb-4">
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">person</span>
+            Papan Saya
+          </h2>
+
+          <button
+            @click="openBoardModal()"
+            class="flex items-center gap-2 h-9 px-4 rounded-lg bg-primary hover:bg-blue-600 text-white text-sm font-semibold transition-all active:scale-95"
+          >
+            <span class="material-symbols-outlined text-base">add</span>
+            Buat Papan Baru
+          </button>
+        </div>
+
 
         <div v-if="boards.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           <!-- Create New Placeholder Card -->
@@ -222,14 +244,12 @@ const closeMenu = () => {
           </div>
         </div>
 
-        <!-- Empty State for My Boards -->
         <div v-else class="flex flex-col items-center justify-center py-10 text-center border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50/50 dark:bg-slate-800/20">
           <p class="text-gray-500 mb-4 text-sm">Anda belum memiliki papan proyek.</p>
           <button @click="openBoardModal()" class="text-primary hover:underline font-medium text-sm">Buat Papan Pertama</button>
         </div>
       </div>
 
-      <!-- Public Boards Section -->
       <div v-if="publicBoards.length > 0" class="mb-10">
         <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
           <span class="material-symbols-outlined text-orange-500">public</span>
@@ -251,7 +271,6 @@ const closeMenu = () => {
               <p class="text-slate-500 dark:text-slate-400 text-sm mb-6 line-clamp-3 leading-relaxed">{{ board.description || 'Tidak ada deskripsi.' }}</p>
               <div class="mt-auto flex items-center justify-between border-t border-slate-100 dark:border-slate-700/50 pt-4">
                 <div class="flex items-center gap-2">
-                   <!-- Placeholder for Owner Avatar since we might not have owner name populated in public list query unless included -->
                   <div class="size-6 rounded-full bg-orange-500 text-white flex items-center justify-center text-xs font-bold ring-1 ring-slate-200 dark:ring-slate-700">
                     {{ board.owner?.name?.charAt(0).toUpperCase() || 'U' }}
                   </div>
