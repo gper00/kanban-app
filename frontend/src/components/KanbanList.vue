@@ -2,7 +2,6 @@
 import { ref } from 'vue'
 import KanbanCard from './KanbanCard.vue'
 import ConfirmModal from './ConfirmModal.vue'
-import { useBoard } from '@/composables/useBoard'
 import draggable from 'vuedraggable'
 
 const props = defineProps({
@@ -16,8 +15,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['add-card', 'open-card-detail', 'edit-list', 'card-moved'])
-const { deleteList } = useBoard()
+const emit = defineEmits(['add-card', 'open-card-detail', 'edit-list', 'card-moved', 'delete-list'])
 
 const isMenuOpen = ref(false)
 const showConfirmDelete = ref(false)
@@ -50,7 +48,7 @@ const confirmDeleteList = () => {
 }
 
 const executeDeleteList = async () => {
-  await deleteList(props.list.id)
+  emit('delete-list', props.list.id)
   showConfirmDelete.value = false
 }
 

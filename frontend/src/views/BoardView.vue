@@ -12,7 +12,7 @@ import { useBoard } from '@/composables/useBoard'
 const router = useRouter()
 const route = useRoute()
 const { logout, user } = useAuth()
-const { currentBoard, lists, loading, fetchBoardDetail, createList, updateList, moveList, createCard, updateCard, updateCardCompletion, deleteCard, moveCard } = useBoard()
+const { currentBoard, lists, loading, fetchBoardDetail, createList, updateList, moveList, deleteList, createCard, updateCard, updateCardCompletion, deleteCard, moveCard } = useBoard()
 
 const showListModal = ref(false)
 const showCreateCardModal = ref(false)
@@ -139,6 +139,14 @@ const handleDeleteCard = async (cardId) => {
   }
 }
 
+const handleDeleteList = async (listId) => {
+  try {
+    await deleteList(listId)
+  } catch (error) {
+    alert('Gagal menghapus daftar.')
+  }
+}
+
 const goHome = () => {
   router.push('/boards')
 }
@@ -225,6 +233,7 @@ const openCreateCardModal = (listId) => {
             :read-only="!isOwner"
             @add-card="openCreateCardModal"
             @edit-list="openListModal"
+            @delete-list="handleDeleteList"
             @open-card-detail="handleOpenCardDetail"
             @card-moved="handleDragMove"
           />

@@ -39,12 +39,12 @@ const { isAuthenticated } = useAuth()
           </template>
         </div>
 
-        <!-- Feature Preview Image Placeholder -->
-        <div class="mt-20 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden w-full max-w-4xl bg-slate-100 dark:bg-slate-800 aspect-video flex items-center justify-center relative group">
+        <!-- Feature Preview Image -->
+        <div class="mt-20 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden w-full max-w-4xl bg-slate-100 dark:bg-slate-800 aspect-video relative group">
+           <img src="/home.png" alt="Dashboard Preview" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end justify-center pb-8 opacity-0 group-hover:opacity-100 transition-opacity">
              <p class="text-white font-medium">Preview Dashboard</p>
            </div>
-           <span class="material-symbols-outlined text-6xl text-slate-300 dark:text-slate-600">image</span>
         </div>
       </div>
     </main>
