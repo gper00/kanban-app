@@ -2,7 +2,7 @@
 
 Aplikasi manajemen proyek kolaboratif yang mengadopsi metodologi Kanban, dirancang dengan arsitektur Full Stack modern yang memisahkan logika antarmuka pengguna (Frontend) dan pemrosesan data (Backend). Aplikasi ini dibangun menggunakan Vue.js 3 untuk sisi klien dan Express.js untuk sisi server, menawarkan pengalaman pengguna yang responsif dan skalabilitas sistem yang baik.
 
-![Dashboard](screenshots/dashboard.png)
+![Kanban App Dashboard](screenshots/dashboard.png)
 
 ## Fitur Utama
 
@@ -11,12 +11,12 @@ Aplikasi ini menyediakan serangkaian fitur komprehensif untuk mendukung produkti
 ### Manajemen Proyek (Kanban)
 Inti dari aplikasi ini adalah sistem papan kerja digital yang fleksibel. Pengguna dapat membuat **Board** tanpa batas, baik yang bersifat pribadi maupun publik. Setiap papan terdiri dari **List** yang berfungsi sebagai kolom status (seperti "To Do", "In Progress", "Done"), di mana daftar ini dapat disusun ulang posisinya sesuai alur kerja yang diinginkan. Unit terkecil dari tugas direpresentasikan sebagai **Card** yang memuat detail penting seperti judul, deskripsi lengkap, tenggat waktu (due date), dan penanda status penyelesaian. Interaksi antar elemen dibangun agar intuitif, memungkinkan pengguna memindahkan kartu antar daftar maupun mengubah urutan daftar itu sendiri.
 
-![Board](screenshots/board.png)
+![Tampilan Board](screenshots/board.png)
 
 ### Project Komunitas
 Aplikasi menyediakan fitur **Public Boards**. Pengguna dapat menjelajadi papan proyek milik pengguna lain yang telah diatur sebagai publik, namun sebatas melihat. Identitas kepemilikan papan dijaga melalui **Owner Badges**, sehingga pengguna dapat dengan mudah mengenali pembuat asli dari sebuah papan proyek.
 
-![Board publik](screenshots/public-board.png)
+![Public Board](screenshots/public-board.png)
 
 ### Produktivitas Terintegrasi
 Selain manajemen tugas dasar, aplikasi ini dilengkapi dengan fitur pendukung produktivitas. **Pomodoro Timer** terintegrasi memungkinkan pengguna menerapkan teknik manajemen waktu fokus-istirahat tanpa perlu meninggalkan aplikasi. Untuk menciptakan suasana kerja yang kondusif, tersedia juga fitur **Lofi Audio Player** yang memutar musik latar yang menenangkan untuk meningkatkan konsentrasi.
