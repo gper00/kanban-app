@@ -39,7 +39,7 @@ Untuk menjalankan aplikasi ini di lingkungan lokal Anda, pastikan telah terinsta
 
 ### Konfigurasi Backend
 
-Masuk ke direktori `backend` dan instal seluruh dependensi yang diperlukan dengan perintah `npm install`. Sebelum menjalankan server, Anda perlu mengatur variabel lingkungan. Salin berkas `.env.example` menjadi `.env` dan sesuaikan kredensial basis data Anda (host, user, password, dan nama database).
+Masuk ke direktori `backend` dan instal seluruh dependensi yang diperlukan dengan perintah `npm install`. Sebelum menjalankan server, Anda perlu mengatur variabel lingkungan. Salin berkas `.env.example` menjadi `.env` dan sesuaikan kredensial basis data Anda (host, user, password, dan nama database, serta port jika diperlukan).
 
 Setelah konfigurasi selesai, buat basis data kosong di MySQL sesuai nama yang Anda tentukan. Jalankan perintah migrasi `npm run migrate` untuk membuat struktur tabel secara otomatis. Terakhir, jalankan server mode pengembangan dengan perintah `npm run dev`. Server backend akan aktif, biasanya pada port 3000.
 
@@ -106,7 +106,7 @@ Berikut adalah beberapa tangkapan layar antarmuka aplikasi:
 ![Edit Kartu](screenshots/edit-card.png)
 *Mengubah informasi kartu*
 
-![Opsi Kartu](screenshots/card-option.png)
+![Opsi Kartu](screenshots/card-options.png)
 *Menu opsi pada kartu*
 
 
